@@ -1,0 +1,63 @@
+version: "3.9"
+
+services:
+
+  # 🔊 1. Service Whisper pour Speech-to-Text
+  whisper_service:
+    build: ./whisper_service
+    container_name: whisper_service
+    ports:
+      - "5001:5001"
+    networks:
+      - callnet
+    restart: always
+
+  # 🧠 2. Service NLP pour résumé et extraction d’idées
+  nlp_service:
+    build: ./nlp_service
+    container_name: nlp_service
+    ports:
+      - "5002:5002"
+    networks:
+      - callnet
+    restart: always
+
+  # 💻 3. Interface Web Streamlit 
+  web_interface:
+    build: ./web_interface
+    container_name: web_interface
+    ports:
+      - "8501:8501"
+    depends_on:
+      - whisper_service
+      - nlp_service
+      - db
+    networks:
+      - callnet
+    restart: always
+
+  # 🗄️ 4. Base de données PostgreSQL
+  db:
+    build: ./db
+    container_name: call_db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: call_analyzer
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - callnet
+    restart: always
+
+
+# 🌐 Réseau interne entre les services
+networks:
+  callnet:
+
+# 📦 Volume pour conserver la base après redémarrage
+volumes:
+  db_data:
+

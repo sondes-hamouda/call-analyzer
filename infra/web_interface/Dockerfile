@@ -1,0 +1,16 @@
+# Dockerfile
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# Installer Streamlit et requests pour la communication avec les autres services
+COPY requirements.txt requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+EXPOSE 8501
+
+# Lancer Streamlit sur le port 8501
+CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+
