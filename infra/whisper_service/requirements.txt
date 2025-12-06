@@ -1,4 +1,12 @@
-flask
-openai-whisper
-torch
+flask==3.0.2
+
+# Whisper stable
+openai-whisper==20231117
+
+# PyTorch CPU léger
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.2.0+cpu
+
+# Version compatible obligatoire
+numpy==1.26.4
 

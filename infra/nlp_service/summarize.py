@@ -4,9 +4,9 @@ from transformers import pipeline
 
 app = Flask(__name__)
 
-# 🔹 Charger un modèle de résumé (français)
-# Ici, on utilise un modèle léger de Hugging Face
-summarizer = pipeline("summarization", model="csebuetnlp/mT5_multilingual_XLSum")
+# 🔹 Modèle de résumé OFFLINE (aucun download nécessaire)
+# 🔹 Fonctionne sans Internet
+summarizer = pipeline("summarization", model="sshleifer/distilbart-cnn-12-6")
 
 @app.route('/')
 def home():
@@ -16,7 +16,6 @@ def home():
 def summarize_text():
     """
     Reçoit un texte (JSON) et renvoie un résumé.
-   
     """
     try:
         data = request.get_json()

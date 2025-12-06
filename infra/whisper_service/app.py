@@ -19,7 +19,7 @@ def transcribe_audio():
     audio_file.save(path)
 
     # Exécuter la transcription
-    result = model.transcribe(path, language='fr')  # langue = français
+    result = model.transcribe(path)  # langue = français
     text = result["text"]
 
     return jsonify({"transcription": text})
